@@ -305,6 +305,12 @@ const fixedPageUI: Field[] = [
     ),
     "2.4",
   ),
+  mkField(
+    "SelectionHeightRatio",
+    Float,
+    1.0,
+    "height of the text selection background relative to its glyph band; 0.5-1.5, default 1.0; smaller values make it thinner",
+  ),
   mkCompactStruct(
     "WindowMargin",
     windowMarginFixedPageUI,

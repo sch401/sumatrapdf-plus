@@ -75,6 +75,7 @@ export const settingsInlineCommentsZh: Record<string, string> = {
   "FixedPageUI.TextColor": "文字颜色",
   "FixedPageUI.BackgroundColor": "页面底色",
   "FixedPageUI.SelectionColor": "选中高亮色",
+  "FixedPageUI.SelectionHeightRatio": "选中文字背景高度比例 0.5-1.5，越小越薄",
   "FixedPageUI.WindowMargin": "页边距 上 右 下 左",
   "FixedPageUI.PageSpacing": "页面间距 横 纵",
   "FixedPageUI.InvertColors": "全局反色",

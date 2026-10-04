@@ -335,6 +335,10 @@ FixedPageUI [
     ; opacity (introduced in version 2.4)
     SelectionColor = #99c1da
 
+    ; height of the text selection background relative to its glyph band;
+    ; 0.5-1.5, default 1.0; smaller values make it thinner
+    SelectionHeightRatio = 1
+
     ; top, right, bottom and left margin (in that order) between window and
     ; document
     WindowMargin = 2 4 2 4

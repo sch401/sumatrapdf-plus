@@ -382,7 +382,19 @@ static void AiTocSettingsRoundTripTest() {
     FreeStruct(&gGlobalPrefsInfo, prefs);
 }
 
+static void SelectionHeightSettingsTest() {
+    auto* prefs = (GlobalPrefs*)DeserializeStruct(&gGlobalPrefsInfo, nullptr);
+    utassert_fequal(prefs->fixedPageUI.selectionHeightRatio, 1.0f);
+    prefs->fixedPageUI.selectionHeightRatio = 0.85f;
+    AutoFree saved((char*)SerializeStruct(&gGlobalPrefsInfo, prefs).data());
+    auto* restored = (GlobalPrefs*)DeserializeStruct(&gGlobalPrefsInfo, saved.data);
+    utassert_fequal(restored->fixedPageUI.selectionHeightRatio, 0.85f);
+    FreeStruct(&gGlobalPrefsInfo, restored);
+    FreeStruct(&gGlobalPrefsInfo, prefs);
+}
+
 void SumatraPDF_UnitTests() {
+    SelectionHeightSettingsTest();
     parseCommandsTest();
     colorTest();
     BenchRangeTest();

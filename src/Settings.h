@@ -53,6 +53,9 @@ struct FixedPageUI {
     // uses the default opacity
     char* selectionColor;
     ParsedColor selectionColorParsed;
+    // height of the text selection background relative to its glyph band;
+    // 0.5-1.5, default 1.0; smaller values make it thinner
+    float selectionHeightRatio;
     // top, right, bottom and left margin (in that order) between window
     // and document
     WindowMargin windowMargin;
@@ -812,6 +815,8 @@ static const FieldInfo gFixedPageUIFields[] = {
     {offsetof(FixedPageUI, textColor), SettingType::Color, (intptr_t)"#000000", "文字颜色"},
     {offsetof(FixedPageUI, backgroundColor), SettingType::Color, (intptr_t)"#ffffff", "页面底色"},
     {offsetof(FixedPageUI, selectionColor), SettingType::Color, (intptr_t)"#99c1da", "选中高亮色"},
+    {offsetof(FixedPageUI, selectionHeightRatio), SettingType::Float, (intptr_t)"1",
+     "选中文字背景高度比例 0.5-1.5，越小越薄"},
     {offsetof(FixedPageUI, windowMargin), SettingType::Compact, (intptr_t)&gWindowMarginInfo, "页边距 上 右 下 左"},
     {offsetof(FixedPageUI, pageSpacing), SettingType::Compact, (intptr_t)&gSizeInfo, "页面间距 横 纵"},
     {offsetof(FixedPageUI, gradientColors), SettingType::ColorArray, 0, nullptr},
@@ -821,9 +826,9 @@ static const FieldInfo gFixedPageUIFields[] = {
     {offsetof(FixedPageUI, joinSplitPdfImages), SettingType::Bool, true, nullptr},
 };
 static const StructInfo gFixedPageUIInfo = {
-    sizeof(FixedPageUI), 10, gFixedPageUIFields,
-    "TextColor\0BackgroundColor\0SelectionColor\0WindowMargin\0PageSpacing\0GradientColors\0InvertColors\0WindowBgCol\0"
-    "FindMatchColor\0JoinSplitPdfImages"};
+    sizeof(FixedPageUI), 11, gFixedPageUIFields,
+    "TextColor\0BackgroundColor\0SelectionColor\0SelectionHeightRatio\0WindowMargin\0PageSpacing\0GradientColors\0Inver"
+    "tColors\0WindowBgCol\0FindMatchColor\0JoinSplitPdfImages"};
 
 static const FieldInfo gEBookUIFields[] = {
     {offsetof(EBookUI, fontSize), SettingType::Float, (intptr_t)"0",
@@ -1098,8 +1103,8 @@ static const StructInfo gPointInfo = {sizeof(Point), 2, gPointFields, "X\0Y"};
 
 static const FieldInfo gGlobalPrefsFields[] = {
     {(size_t)-1, SettingType::Comment,
-     (intptr_t)"For documentation, see https://www.sumatrapdfreader.org/settings/settings3-7-36.html",
-     "For documentation, see https://www.sumatrapdfreader.org/settings/settings3-7-36.html"},
+     (intptr_t)"For documentation, see https://www.sumatrapdfreader.org/settings/settings3-7-37.html",
+     "For documentation, see https://www.sumatrapdfreader.org/settings/settings3-7-37.html"},
     {(size_t)-1, SettingType::Comment, 0, nullptr},
     {offsetof(GlobalPrefs, checkForUpdates), SettingType::Bool, true, "是否每天自动检测新版本"},
     {offsetof(GlobalPrefs, customScreenDPI), SettingType::Int, 0, "自定义主屏幕 DPI；0=跟随系统"},

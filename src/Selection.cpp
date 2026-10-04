@@ -520,6 +520,7 @@ void PaintSelection(MainWindow* win, HDC hdc) {
     ReportIf(!win->AsFixed());
 
     Vec<Rect> rects;
+    bool textSelection = false;
 
     if (win->mouseAction == MouseAction::Selecting) {
         // during rectangle selection
@@ -560,6 +561,11 @@ void PaintSelection(MainWindow* win, HDC hdc) {
         DisplayModel* dm = win->AsFixed();
         bool tightenRects = dm->textSelection->result.len > 0;
         if (tightenRects) {
+            textSelection = true;
+            float heightRatio = gGlobalPrefs->fixedPageUI.selectionHeightRatio;
+            if (!(heightRatio >= 0.5f && heightRatio <= 1.5f)) {
+                heightRatio = 1.0f;
+            }
             int pageCount = dm->GetEngine()->PageCount();
             for (int pageNo = 1; pageNo <= pageCount; pageNo++) {
                 Vec<RectF> pageRects;
@@ -578,7 +584,7 @@ void PaintSelection(MainWindow* win, HDC hdc) {
                 }
                 NormalizeNearbyHighlightHeights(pageRects);
                 for (RectF& rf : pageRects) {
-                    rf = ScaleHighlightBandRect(rf, kSelectionHighlightBandRatio);
+                    rf = ScaleHighlightBandRect(rf, heightRatio);
                     Rect sr = dm->CvtToScreen(pageNo, rf);
                     if (!sr.IsEmpty()) {
                         rects.Append(sr);
@@ -597,7 +603,7 @@ void PaintSelection(MainWindow* win, HDC hdc) {
     if (alpha == 0) {
         alpha = kSelectionDefaultAlpha;
     }
-    PaintTransparentRectangles(hdc, win->canvasRc, rects, parsedCol->col, alpha, 2);
+    PaintTransparentRectangles(hdc, win->canvasRc, rects, parsedCol->col, alpha, textSelection ? 0 : 2);
 }
 
 static constexpr int kMaxReselectTextChars = 2000;
